@@ -12,10 +12,8 @@ import pafy
 # audio_streams = v.audiostreams
 # for item in audio_streams:
 #     print(item)
+# внес изменения 21.07.21
 
-# all_streams = v.allstreams
-# for item in all_streams:
-#     print(item.quality)
 
 url = input("Введите URL видео: ")
 
