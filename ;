@@ -1,0 +1,23 @@
+[33mcommit d031c1357e72573a20772e10fbaf394e78130c30[m[33m ([m[1;36mHEAD -> [m[1;32mUI_1_0[m[33m)[m
+Author: pa.kulyasov <pa.kulyasov@tensor.ru>
+Date:   Wed Jul 21 14:01:38 2021 +0300
+
+    add file with UI
+
+[33mcommit f26e6748afdf46450bba08af47330475462f361f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Pavel Kulyasov <kulyasov.pavel@rambler.ru>
+Date:   Wed Jul 21 01:23:04 2021 +0300
+
+    add function to download audio/video
+
+[33mcommit eb901a95cfe49872ab8150149cc722c81b509c8a[m
+Author: Pavel Kulyasov <kulyasov.pavel@rambler.ru>
+Date:   Wed Jul 21 00:27:11 2021 +0300
+
+    delete comments
+
+[33mcommit 7a26aa52b6411f68b2a3855e50978a1981bb12e7[m
+Author: pa.kulyasov <pa.kulyasov@tensor.ru>
+Date:   Thu Jul 15 16:48:38 2021 +0300
+
+    add main file
