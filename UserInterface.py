@@ -37,6 +37,8 @@ def set_values(value_video, value_audio):
 def null_values():
     combo_video['values'] = ['']
     combo_video.current(0)
+    combo_audio['values'] = ['']
+    combo_audio.current(0)
 
 def null_message():
     label_message.configure(text='')
@@ -72,10 +74,9 @@ def download_audio():
     try:
         v = pafy.new(url)
         audio_streams = v.audiostreams
-        quality = combo_video.get()
+        quality = combo_audio.get()
         for number, stream in enumerate(audio_streams):
             if quality == str(stream):
-                print(number, quality)
                 audio_streams[number].download()
     except:
         del_dl_button()
