@@ -1,4 +1,4 @@
-from ctypes import alignment
+from tkinter import filedialog
 from tkinter import *
 from tkinter.ttk import Combobox
 import pafy
@@ -57,6 +57,8 @@ def del_dl_button():
         btn_download_audio.grid_remove()
 
 def download_video():
+    label_download.config(text="Подождите, идет загрузка...", font="50")
+    label_download.update()
     url = get_text()
     try:
         v = pafy.new(url)
@@ -64,12 +66,16 @@ def download_video():
         quality = combo_video.get()
         for number, stream in enumerate(video_streams):
             if quality == str(stream):
-                video_streams[number].download()
+                video_streams[number].download(filepath=folder_path)
+                label_download.configure(text="Загрузка завершена", font="50")   
     except:
         del_dl_button()
+        label_download.configure(text='')
         label_message.configure(text="Введите ссылку с Youtube")
     
 def download_audio():
+    label_download.configure(text="Подождите, идет загрузка...", font="50")
+    label_download.update()
     url = get_text()
     try:
         v = pafy.new(url)
@@ -77,20 +83,41 @@ def download_audio():
         quality = combo_audio.get()
         for number, stream in enumerate(audio_streams):
             if quality == str(stream):
-                audio_streams[number].download()
+                audio_streams[number].download(filepath=folder_path)
+                label_download.configure(text="Загрузка завершена", font="50")   
+        # v = pafy.new('ylOrzU_77_k')
+        # s = v.getbest()
+        # video_size = v.get_fileseze()
+        # print(video_size)
+
+        # with tqdm.tqdm(desc='ylOrzU_77_k', total=video_size, unit_scale=True, unit='B', initial=0) as pbar:
+        #     s.download(quiet=True, callback=lambda _, received, *args:update(pbar, received)) 
     except:
         del_dl_button()
+        label_download.configure(text='')
         label_message.configure(text="Введите ссылку с Youtube")
 
 def insert_buffer():
     txt.delete(0, "end")
     txt.insert(0, pyperclip.paste())
 
+def browse_button():
+    # Allow user to select a directory and store it in global var
+    # called folder_path
+    global folder_path
+    filename = filedialog.askdirectory()
+    folder_path.set(filename)
+    print(filename)
+
+# def test_command():
+#     label_download.configure(text="Подождите, идет загрузка...", font="50")
 
 
 window = Tk()
 window.title("Загрузчик видео с YouTube")
 window.geometry('620x200')
+folder_path = StringVar()
+
 lbl = Label(window, text="Введите URL-адрес страницы:")
 lbl.grid(column=0, row=0)
 
@@ -106,6 +133,9 @@ label_message.grid(column=0, row=4)
 label_info = Label(window, text='')
 label_info.grid(column=1, row=3)
 
+label_download = Label(window, text='')
+label_download.grid(column=1, row=4)
+
 txt = Entry(window, width='50')
 txt.grid(column=1, row=0)
 txt.clipboard_get()
@@ -120,6 +150,10 @@ btn_download_audio = Button(window, text='', command=download_audio)
 button_buffer = Button(window, text="Вставить из буфера", command=insert_buffer)
 button_buffer.grid(column=1, row=1)
 
+test_button = Button(window, text='Куда сохранить...', command=browse_button)
+test_button.grid(column=1, row=6)
+
+# добавить возможность выбора папки для сохранения
 
 
 window.mainloop()
