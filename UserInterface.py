@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 import pafy
 import pyperclip
+import os
 
 def return_streams():
     null_values()
@@ -60,20 +61,22 @@ def download_video():
     label_download.config(text="Подождите, идет загрузка...", font="50")
     label_download.update()
     url = get_text()
-    try:
+    try:  
         v = pafy.new(url)
         video_streams = v.streams
         quality = combo_video.get()
         for number, stream in enumerate(video_streams):
             if quality == str(stream):
-                video_streams[number].download(filepath=folder_path)
+                path_save = get_label_path_text()
+                video_streams[number].download(filepath=path_save)
                 label_download.configure(text="Загрузка завершена", font="50")   
     except:
         del_dl_button()
         label_download.configure(text='')
         label_message.configure(text="Введите ссылку с Youtube")
-    
+
 def download_audio():
+    global folder_path
     label_download.configure(text="Подождите, идет загрузка...", font="50")
     label_download.update()
     url = get_text()
@@ -83,7 +86,8 @@ def download_audio():
         quality = combo_audio.get()
         for number, stream in enumerate(audio_streams):
             if quality == str(stream):
-                audio_streams[number].download(filepath=folder_path)
+                path_save = get_label_path_text()
+                audio_streams[number].download(filepath=path_save)
                 label_download.configure(text="Загрузка завершена", font="50")   
         # v = pafy.new('ylOrzU_77_k')
         # s = v.getbest()
@@ -97,6 +101,11 @@ def download_audio():
         label_download.configure(text='')
         label_message.configure(text="Введите ссылку с Youtube")
 
+def get_label_path_text():
+    path_save = label_path_text.get().split('\\')
+    path_save = '\\'.join(path_save)
+    return path_save
+
 def insert_buffer():
     txt.delete(0, "end")
     txt.insert(0, pyperclip.paste())
@@ -106,17 +115,20 @@ def browse_button():
     # called folder_path
     global folder_path
     filename = filedialog.askdirectory()
+    filename = filename.split('/')
+    filename2 = filename[1:]
+    filename = os.path.join(filename[0], '\\', *filename2)
     folder_path.set(filename)
-    print(filename)
+    label_path_text.set(filename)
 
 # def test_command():
 #     label_download.configure(text="Подождите, идет загрузка...", font="50")
-
 
 window = Tk()
 window.title("Загрузчик видео с YouTube")
 window.geometry('620x200')
 folder_path = StringVar()
+# folder_path = os.getcwd()
 
 lbl = Label(window, text="Введите URL-адрес страницы:")
 lbl.grid(column=0, row=0)
@@ -136,9 +148,14 @@ label_info.grid(column=1, row=3)
 label_download = Label(window, text='')
 label_download.grid(column=1, row=4)
 
+label_path_text = StringVar()
+label_path_text.set('')
+label_path = Label(window, textvariable=label_path_text)
+label_path.grid(column=1, row=6)
+
 txt = Entry(window, width='50')
 txt.grid(column=1, row=0)
-txt.clipboard_get()
+# txt.clipboard_get()
 
 btn_next = Button(window, text="Далее-->", command=return_streams)
 btn_next.grid(column=2, row=0)
@@ -151,7 +168,7 @@ button_buffer = Button(window, text="Вставить из буфера", comman
 button_buffer.grid(column=1, row=1)
 
 test_button = Button(window, text='Куда сохранить...', command=browse_button)
-test_button.grid(column=1, row=6)
+test_button.grid(column=0, row=6)
 
 # добавить возможность выбора папки для сохранения
 
