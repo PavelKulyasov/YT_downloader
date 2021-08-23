@@ -76,7 +76,6 @@ def download_video():
         label_message.configure(text="Введите ссылку с Youtube")
 
 def download_audio():
-    global folder_path
     label_download.configure(text="Подождите, идет загрузка...", font="50")
     label_download.update()
     url = get_text()
@@ -89,13 +88,6 @@ def download_audio():
                 path_save = get_label_path_text()
                 audio_streams[number].download(filepath=path_save)
                 label_download.configure(text="Загрузка завершена", font="50")   
-        # v = pafy.new('ylOrzU_77_k')
-        # s = v.getbest()
-        # video_size = v.get_fileseze()
-        # print(video_size)
-
-        # with tqdm.tqdm(desc='ylOrzU_77_k', total=video_size, unit_scale=True, unit='B', initial=0) as pbar:
-        #     s.download(quiet=True, callback=lambda _, received, *args:update(pbar, received)) 
     except:
         del_dl_button()
         label_download.configure(text='')
@@ -111,8 +103,6 @@ def insert_buffer():
     txt.insert(0, pyperclip.paste())
 
 def browse_button():
-    # Allow user to select a directory and store it in global var
-    # called folder_path
     global folder_path
     filename = filedialog.askdirectory()
     filename = filename.split('/')
@@ -121,14 +111,11 @@ def browse_button():
     folder_path.set(filename)
     label_path_text.set(filename)
 
-# def test_command():
-#     label_download.configure(text="Подождите, идет загрузка...", font="50")
 
 window = Tk()
 window.title("Загрузчик видео с YouTube")
 window.geometry('620x200')
 folder_path = StringVar()
-# folder_path = os.getcwd()
 
 lbl = Label(window, text="Введите URL-адрес страницы:")
 lbl.grid(column=0, row=0)
@@ -169,8 +156,6 @@ button_buffer.grid(column=1, row=1)
 
 test_button = Button(window, text='Куда сохранить...', command=browse_button)
 test_button.grid(column=0, row=6)
-
-# добавить возможность выбора папки для сохранения
 
 
 window.mainloop()
